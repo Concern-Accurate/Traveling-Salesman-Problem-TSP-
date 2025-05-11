@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+int tsp(const vector<vector<int>>& distances) {
+    int n = distances.size();
+    vector<int> cities(n);
+    for (int i = 0; i < n; ++i) {
+        cities[i] = i;
+    }
+
+    int min_path = INT_MAX;
+    do {
+        int current_path = 0;
+        for (int i = 0; i < n - 1; ++i) {
+            current_path += distances[cities[i]][cities[i + 1]];
+        }
+         current_path += distances[cities[n - 1]][cities[0]];
+
+        min_path = min(min_path, current_path);
+    } while (next_permutation(cities.begin() + 1, cities.end()));
+
+    return min_path;
+}
+
+int main() {
+    vector<vector<int>> distances = {
+        {0, 10, 15, 20},
+        {10, 0, 35, 25},
+        {15, 35, 0, 30},
+        {20, 25, 30, 0}
+    };
+
+    int shortest_path = tsp(distances);
+    cout << "The shortest path length is: " << shortest_path << endl;
+
+    return 0;
+}
